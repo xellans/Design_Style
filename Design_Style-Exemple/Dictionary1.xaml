@@ -1,0 +1,8 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:sys="clr-namespace:System;assembly=netstandard">
+    <sys:String x:Key="ms">Мс</sys:String>
+    <sys:String x:Key="sec">Сек</sys:String>
+    <sys:String x:Key="min">Мин</sys:String>
+    <sys:String x:Key="hour">Час</sys:String>
+
+</ResourceDictionary>

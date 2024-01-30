@@ -1,0 +1,133 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Design_Style">
+
+    <!--Кнопка уменьшить значение-->
+    <Style x:Key="StyleDownValueButton" TargetType="Button">
+        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="root" Background="Transparent" MinWidth="{Binding ActualWidth, ElementName=root}" Padding="10,0,10,0">
+                        <Viewbox Name="VbArrow" 
+                                 Margin="0 9 0 9">
+                            <Path  Name="Arrow"
+                                   RenderTransformOrigin="0.5,0.5"
+                                   Stretch="Fill" 
+                                   Stroke="{Binding BackgroundArrow, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}"
+                                   StrokeThickness="1.5"
+                                   StrokeStartLineCap="Round"
+                                   StrokeEndLineCap="Round"
+                                   StrokeLineJoin="Round"
+                                   Data="M1 13L7 7L1 1">
+                                <Path.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="180"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </Path.RenderTransform>
+                            </Path>
+                        </Viewbox>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Stroke" Value="{Binding (local:NumericUpDown.BackgroundArrowMouseOver), RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="Arrow"></Setter>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding ElementName=DownValueButton, Path=IsPressed}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard AutoReverse="True">
+                                        <ThicknessAnimation Storyboard.TargetName="VbArrow" Storyboard.TargetProperty="Margin" From="0 9 0 9" To="0 12 0 12" Duration="0:0:0:0.1000"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--Кнопка увеличить значение-->
+    <Style x:Key="StyleUpValueButton" TargetType="Button">
+        <Setter Property="local:NumericUpDown.CornerRadius" Value="6"></Setter>
+        <Setter Property="local:NumericUpDown.BackgroundButton" Value="#F1F1F1"></Setter>
+        <Setter Property="local:NumericUpDown.BackgroundButtonMouseOver" Value="#46BCFF"></Setter>
+        <Setter Property="local:NumericUpDown.BackgroundArrow" Value="#BBBBBB"></Setter>
+        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+        <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="root" Background="Transparent" MinWidth="{Binding ActualWidth, ElementName=root}" Padding="10,0,10,0">
+                        <Viewbox Name="VbArrow"
+                                 Margin="0 9 0 9">
+                            <Path Name="Arrow"
+                                  Stretch="Fill" 
+                                  Stroke="{Binding BackgroundArrow, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}"
+                                  StrokeThickness="1.5"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round"
+                                  Data="M1 13L7 7L1 1"/>
+                        </Viewbox>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Stroke" Value="{Binding (local:NumericUpDown.BackgroundArrowMouseOver), RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="Arrow"></Setter>
+                        </Trigger>
+                        <DataTrigger Binding="{Binding ElementName=UpValueButton, Path=IsPressed}" Value="true">
+                            <DataTrigger.EnterActions>
+                                <BeginStoryboard>
+                                    <Storyboard AutoReverse="True">
+                                        <ThicknessAnimation Storyboard.TargetName="VbArrow" Storyboard.TargetProperty="Margin" From="0 9 0 9" To="0 12 0 12" Duration="0:0:0:0.100"/>
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </DataTrigger.EnterActions>
+                        </DataTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="Style_NumericUpDown" TargetType="{x:Type local:NumericUpDown}">
+        <Setter Property="Background" Value="White"></Setter>
+        <Setter Property="BorderBrush" Value="#E5E5E5"></Setter>
+        <Setter Property="BorderThickness" Value="1"></Setter>
+        <Setter Property="Padding" Value="10 0 0 0"></Setter>
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="Value" Value="0"></Setter>
+        <Setter Property="Minimum" Value="0"></Setter>
+        <Setter Property="Maximum" Value="1000"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type local:NumericUpDown}">
+                    <Border CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type local:NumericUpDown}}}" 
+                      Background="{TemplateBinding Background}"
+                      BorderBrush="{TemplateBinding BorderBrush}"
+                      BorderThickness="{TemplateBinding BorderThickness}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                                <ColumnDefinition Width="auto"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+                            <TextBox x:Name="NumericTextBox" Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+                              FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Margin="{TemplateBinding Padding}"
+                              VerticalAlignment="Center" Grid.Column="0" Background="Transparent" BorderThickness="0"></TextBox>
+                            <Button x:Name="DownValueButton"  Style="{StaticResource StyleDownValueButton}" Grid.Column="1" Command="{x:Static local:NumericUpDown.DownValueCommand}"></Button>
+                            <Button x:Name="UpValueButton"  Style="{StaticResource StyleUpValueButton}" Grid.Column="2" Command="{x:Static local:NumericUpDown.UpValueCommand}"></Button>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

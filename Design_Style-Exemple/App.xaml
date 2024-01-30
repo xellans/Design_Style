@@ -1,0 +1,34 @@
+﻿<Application x:Class="Design_Style_Exemple.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:Design_Style="clr-namespace:Design_Style;assembly=Design_Style"
+             xmlns:local="clr-namespace:Design_Style_Exemple"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Design_Style;component/CheckBoxStyle_IOS.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Design_Style;component/CheckBoxStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Design_Style;component/ButtonRipple.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Design_Style;component/RadioButtonRipple.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Design_Style;component/RadioButtonRipple2.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Design_Style;component/NumericUpDownStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Design_Style;component/NumericUpDownTimeStyle.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="/Design_Style;component/ComboBoxStyle.xaml"></ResourceDictionary>
+
+                <ResourceDictionary Source="/Dictionary2.xaml"></ResourceDictionary>
+
+                <ResourceDictionary Source="/Dictionary1.xaml"></ResourceDictionary>
+
+
+            </ResourceDictionary.MergedDictionaries>
+            <Style BasedOn="{StaticResource Style_ComboBox}" TargetType="ComboBox">
+                <Setter Property="Design_Style:ComboBoxStyle.MarginArrow" Value="0,12,8,10"></Setter>
+            </Style>
+            
+            <Style x:Key="ComboBoxStyle" BasedOn="{StaticResource Style_ComboBox}" TargetType="ComboBox">
+                <Setter Property="Design_Style:ComboBoxStyle.MarginArrow" Value="0,12,11,10"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>
