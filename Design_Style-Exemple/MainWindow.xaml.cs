@@ -43,19 +43,20 @@ namespace Design_Style_Exemple
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
              //NumericTime.TimeType = TimeIntervals.Hour;
-            //ChangeLanguage();
-            var oldTimeType = NumericTime.TimeType;
-            var updatedDictionary = new Dictionary<TimeIntervals, string>();
-            updatedDictionary[TimeIntervals.Hour] = "ч";
-            updatedDictionary[TimeIntervals.Minute] = "м";
-            updatedDictionary[TimeIntervals.Second] = "с";
-            updatedDictionary[TimeIntervals.Millisecond] = "мс";
-            NumericTime.TimeIntervalsDisplay = updatedDictionary;
-          //  NumericTime.TimeType = updatedDictionary.Keys.FirstOrDefault(x => x != oldTimeType);
-           // NumericTime.TimeType = updatedDictionary.Keys.FirstOrDefault(x => x == oldTimeType);
+            ChangeLanguage();
+            //var oldTimeType = NumericTime.TimeType;
+            //var updatedDictionary = new Dictionary<TimeIntervals, string>();
+            //updatedDictionary[TimeIntervals.Hour] = "ч";
+            //updatedDictionary[TimeIntervals.Minute] = "м";
+            //updatedDictionary[TimeIntervals.Second] = "с";
+            //updatedDictionary[TimeIntervals.Millisecond] = "мс";
+            //NumericTime.TimeIntervalsDisplay = updatedDictionary;
+            //NumericTime.TimeType = updatedDictionary.Keys.FirstOrDefault(x => x != oldTimeType);
+            //NumericTime.TimeType = updatedDictionary.Keys.FirstOrDefault(x => x == oldTimeType);
         }
         private void SetLanguePack(string path)
         {
+            // Удаляем ресурсы, содержащие "Langue"
             var dictionariesToRemove = Application.Current.Resources.MergedDictionaries.Where(d => d.Source != null && d.Source.OriginalString.Contains("Dictionary")).ToList();
             foreach (var dictionary in dictionariesToRemove)
                 Application.Current.Resources.MergedDictionaries.Remove(dictionary);

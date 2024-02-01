@@ -200,19 +200,23 @@ namespace Design_Style
                         Value = temp;
                         textbox.Text = Value.ToString();
                         SavePositionCursor(textbox);
+                        return;
                     }
                     if (temp < Minimum) // Если значение превышает минимум сбрасываем Value до минимального значения
                     {
                         Value = Minimum;
                         textbox.Text = Value.ToString();
                         SavePositionCursor(textbox);
+                        return;
                     }
                     if (temp > Maximum) // Если значение превышает максим сбрасываем Value до максимального значения
                     {
                         Value = Maximum;
                         textbox.Text = Value.ToString();
                         SavePositionCursor(textbox);
+                        return;
                     }
+                    Value = temp;
                 }
                 else
                 {

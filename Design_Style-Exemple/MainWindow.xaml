@@ -9,7 +9,31 @@
     xmlns:helper="clr-namespace:Design_Style.Hellper;assembly=Design_Style"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <Window.Resources>
-       
+        <local:TimeIntervalToStringConverter x:Key="TimeIntervalToStringConverter"/>
+        <Style x:Key="NumericUpDownTimeStyle1" TargetType="{x:Type local:NumericUpDownTime}">
+            <Setter Property="Value" Value="0"/>
+            <Setter Property="Minimum" Value="0"/>
+            <Setter Property="Maximum" Value="1000"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type local:NumericUpDownTime}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="auto"/>
+                            </Grid.ColumnDefinitions>
+                            <local:NumericUpDown Grid.Column="0" Height="{TemplateBinding Height}" Maximum="{Binding Maximum, RelativeSource={RelativeSource Mode=TemplatedParent}}" Minimum="{Binding Minimum, RelativeSource={RelativeSource Mode=TemplatedParent}}" Value="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}}" Width="{TemplateBinding Width}"/>
+                            <ComboBox x:Name="PART_NumericComboBox" Grid.Column="1" Height="{TemplateBinding Height}" Margin="14,0,0,0" Width="66">
+                                <ComboBoxItem Content="{DynamicResource hour}" IsSelected="{Binding TimeType, ConverterParameter={x:Static local:TimeIntervals.Hour}, Converter={StaticResource TimeIntervalToStringConverter}, RelativeSource={RelativeSource AncestorType={x:Type local:NumericUpDownTime}}}"/>
+                                <ComboBoxItem Content="{DynamicResource min}" IsSelected="{Binding TimeType, ConverterParameter={x:Static local:TimeIntervals.Minute}, Converter={StaticResource TimeIntervalToStringConverter}, RelativeSource={RelativeSource AncestorType={x:Type local:NumericUpDownTime}}}"/>
+                                <ComboBoxItem Content="{DynamicResource sec}" IsSelected="{Binding TimeType, ConverterParameter={x:Static local:TimeIntervals.Second}, Converter={StaticResource TimeIntervalToStringConverter}, RelativeSource={RelativeSource AncestorType={x:Type local:NumericUpDownTime}}}"/>
+                                <ComboBoxItem Content="{DynamicResource ms}" IsSelected="{Binding TimeType, ConverterParameter={x:Static local:TimeIntervals.Millisecond}, Converter={StaticResource TimeIntervalToStringConverter}, RelativeSource={RelativeSource AncestorType={x:Type local:NumericUpDownTime}}}"/>
+                            </ComboBox>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
 
     <Grid>
@@ -43,6 +67,10 @@
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
                 <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+
             </Grid.RowDefinitions>
             <TextBlock Margin="10 10 0 0" FontSize="18">Buttons</TextBlock>
             <Button Grid.Row="1" Style="{StaticResource Style_ButtonRipple}"  Margin="10 5 10 0" Foreground="White">Ripple Button</Button>
@@ -54,7 +82,7 @@
             <local:NumericUpDown x:Name="NumericUpDown" Margin="10 5 10 0" Grid.Row="5" Height="32"/>
             <local:NumericUpDown  Grid.Row="5" Style="{StaticResource Style_NumericUpDown}" Height="32" Grid.Column="1" Margin="10 5 10 0"/>
             <TextBlock Grid.Row="6" Margin="10 10 0 0" FontSize="18">NumericUpDownTime</TextBlock>
-            <local:NumericUpDownTime   Grid.Row="7" x:Name="NumericTime" Value="1" Height="32"  Margin="10 5 10 0"></local:NumericUpDownTime>
+            <local:NumericUpDownTime Style="{DynamicResource NumericUpDownTimeStyle1}"   Grid.Row="7" x:Name="NumericTime" Value="1" Height="32"  Margin="10 5 10 0"></local:NumericUpDownTime>
             <local:NumericUpDownTime Grid.Row="7"  Value="1" Style="{StaticResource Style_NumericUpDownTime}" Height="32" Grid.Column="1" Margin="10 5 10 0"/>
             <TextBlock Grid.Row="8" Margin="10 10 0 0" FontSize="18">ComboBox</TextBlock>
             <ComboBox Style="{StaticResource Style_ComboBox}" Grid.Row="9" Margin="10 5 10 0" SelectedIndex="0">
@@ -64,9 +92,9 @@
                 <ComboBoxItem>Data</ComboBoxItem>
                 <ComboBoxItem Margin="0 0 0 7">Data</ComboBoxItem>
             </ComboBox>
-            <Button Grid.Row="10" Click="Button_Click">Selected TimeType NunericUpDownTime</Button>
-            <Button Grid.Column="1" Grid.Row="10" Click="Button_Click_3">Изменить локализацию NunericUpDownTime</Button>
-
+            <Button Grid.Row="10" Click="Button_Click"></Button>
+            <Button Grid.Column="1" Grid.Row="10" Click="Button_Click_3"></Button>
+            <TextBlock Grid.Row="11" Background="#FFF7E2E2" Text="{Binding ElementName=NumericTime, Path=ValueResult}"></TextBlock>
         </Grid>
     </Grid>
 </Window>

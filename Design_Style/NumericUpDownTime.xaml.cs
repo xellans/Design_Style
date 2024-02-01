@@ -25,25 +25,6 @@ namespace Design_Style
     }
     public class NumericUpDownTime : NumericUpDown
     {
-        public static readonly IReadOnlyDictionary<TimeIntervals, string> TimeIntervalsRus
-           = new ReadOnlyDictionary<TimeIntervals, string>(new Dictionary<TimeIntervals, string>()
-       {
-            {TimeIntervals.Millisecond, "мс"},
-            {TimeIntervals.Second, "сек"},
-            {TimeIntervals.Minute, "мин"},
-            {TimeIntervals.Hour, "час"},
-       });
-
-        public IReadOnlyDictionary<TimeIntervals, string> TimeIntervalsDisplay
-        {
-            get => (IReadOnlyDictionary<TimeIntervals, string>)GetValue(MyPropertyProperty);
-            set => SetValue(MyPropertyProperty, value);
-        }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.Register(nameof(TimeIntervalsDisplay), typeof(IReadOnlyDictionary<TimeIntervals, string>), typeof(NumericUpDownTime), new PropertyMetadata(TimeIntervalsRus));
-
         static NumericUpDownTime() => DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDownTime), new FrameworkPropertyMetadata(typeof(NumericUpDownTime)));
 
         #region TimeType 
@@ -57,11 +38,60 @@ namespace Design_Style
             set { SetValue(TimeTypeProperty, value); }
         }
 
-        public static readonly DependencyProperty TimeTypeProperty =
-         DependencyProperty.Register(nameof(TimeType),
-             typeof(TimeIntervals),
-             typeof(NumericUpDownTime),
-             new FrameworkPropertyMetadata(TimeIntervals.Millisecond));
+        public static readonly DependencyProperty TimeTypeProperty = DependencyProperty.Register(nameof(TimeType),
+                 typeof(TimeIntervals),
+                 typeof(NumericUpDownTime),
+                 new FrameworkPropertyMetadata(TimeIntervals.Millisecond)
+                 {
+                     PropertyChangedCallback = OnTimeTypeChanged,
+                     BindsTwoWayByDefault = true,
+                     DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                 });
+
+        private static void OnTimeTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            NumericUpDownTime numeric = (NumericUpDownTime)d;
+            numeric.ValueResult = numeric.Value;
+            numeric.ValueResult =  e.NewValue switch
+            {
+                TimeIntervals.Millisecond => numeric.ValueResult,
+                TimeIntervals.Second => numeric.ValueResult * 1000,
+                TimeIntervals.Minute => numeric.ValueResult * 60_000,
+                TimeIntervals.Hour => numeric.ValueResult * 3_600_000,
+                _ => throw new NotImplementedException(),
+            };
+        }
         #endregion
-    }
+
+        /// <summary>
+        /// Выходной результат Vaule, возвращает единицы измерения в Millisecond.
+        /// </summary>
+        #region ValueResult
+        public double ValueResult
+        {
+            get { return (double)GetValue(ValueResultProperty); }
+            private set { SetValue(ValueResultProperty, value); }
+        }
+        public static readonly DependencyProperty ValueResultProperty = DependencyProperty.Register(nameof(ValueResult),
+                typeof(double),
+                typeof(NumericUpDownTime),
+                new FrameworkPropertyMetadata(0.0)
+                {
+                    BindsTwoWayByDefault = true,
+                    DefaultUpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged
+                });
+        protected override void OnValueChanged(double oldValue, double newValue)
+        {
+            base.OnValueChanged(oldValue, newValue);
+            ValueResult = TimeType switch
+            {
+                TimeIntervals.Millisecond => newValue,
+                TimeIntervals.Second => newValue * 1000,
+                TimeIntervals.Minute => newValue * 60_000,
+                TimeIntervals.Hour => newValue * 3_600_000,
+                _ => throw new NotImplementedException(),
+            };
+            }
+        }
+    #endregion
 }
