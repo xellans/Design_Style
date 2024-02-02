@@ -86,7 +86,8 @@
                 <Button Content="Вверх" Command="{x:Static local:UpDownButton.DownCommand}" CommandTarget="{Binding ElementName=comboBox, Mode=OneWay}"/>
             </StackPanel>
             <Viewbox Grid.Row="13">
-                <CheckBox x:Name="checkBox" Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, TargetNullValue=null}" IsEnabled="False"/>
+                <CheckBox x:Name="checkBox" Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, TargetNullValue=null}"
+                          IsHitTestVisible="False" IsTabStop="False"/>
             </Viewbox>
             <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal" Background="Transparent">
                 <Button Content="Вниз" Command="{x:Static local:UpDownButton.UpCommand}" CommandTarget="{Binding ElementName=checkBox, Mode=OneWay}"/>
