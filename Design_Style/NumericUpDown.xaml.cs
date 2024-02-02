@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,11 +24,7 @@ namespace Design_Style
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(typeof(NumericUpDown)));
             SmallChangeProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(1.0));
-            //CommandManager.RegisterClassCommandBinding(typeof(NumericUpDown), new(UpValueCommand, OnUpValueExecute, OnUpDownValueCanExecute));
-            //CommandManager.RegisterClassCommandBinding(typeof(NumericUpDown), new(DownValueCommand, OnDownValueExecute, OnUpDownValueCanExecute));
         }
-        //public static readonly RoutedCommand UpValueCommand = new("UpValue", typeof(NumericUpDown));
-        //public static readonly RoutedCommand DownValueCommand = new("DownValue", typeof(NumericUpDown));
 
         #region Dp свойства для персонализации
 
@@ -110,127 +108,156 @@ namespace Design_Style
         public static SolidColorBrush GetBackgroundArrowMouseOver(UIElement element) => (SolidColorBrush)element.GetValue(BackgroundArrowMouseOverProperty);
         #endregion
         #endregion
+    }
 
-        #region Логика NumericUpDown
-        private static void OnUpValueExecute(object sender, ExecutedRoutedEventArgs e)
+    public class DoubleTextBox : TextBox
+    {
+        public DoubleTextBox()
         {
-            NumericUpDown numericUpDown = (NumericUpDown)sender;
-            numericUpDown.Value += numericUpDown.SmallChange;
+            SetBinding(MaximumProperty, MaximumBinding);
+            SetBinding(MinimumProperty, MinimumBinding);
+            SetBinding(ValueProperty, ValueBinding);
+            SetBinding(SmallChangeProperty, SmallChangeBinding);
+            SetBinding(TextProperty, TextBinding);
         }
 
-        private static void OnUpDownValueCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        public double Value
         {
-            NumericUpDown numericUpDown = (NumericUpDown)sender;
-            e.CanExecute = numericUpDown.SmallChange > 0.0;
+            get { return (double)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
+        public static readonly DependencyProperty ValueProperty = RangeBase.ValueProperty;
 
-        private static void OnDownValueExecute(object sender, ExecutedRoutedEventArgs e)
+        public double Maximum
         {
-            NumericUpDown numericUpDown = (NumericUpDown)sender;
-            numericUpDown.Value -= numericUpDown.SmallChange;
+            get { return (double)GetValue(MaximumProperty); }
+            set { SetValue(MaximumProperty, value); }
         }
-        public override void OnApplyTemplate()
+        public static readonly DependencyProperty MaximumProperty = RangeBase.MaximumProperty;
+
+        public double Minimum
         {
-            base.OnApplyTemplate();
-            var NumericTextBox = GetTemplateChild("NumericTextBox") as TextBox;
-            if (NumericTextBox != null)
-            {
-                NumericTextBox.PreviewKeyDown += TextBox_PreviewKeyUpEvent;
-                NumericTextBox.TextChanged += TextBox_TextChanged;
-                NumericTextBox.MouseWheel += TextBox_MouseWheel;
-            }
+            get { return (double)GetValue(MinimumProperty); }
+            set { SetValue(MinimumProperty, value); }
         }
-        /// <summary>
-        /// Отлов вращения колесика мыши
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TextBox_MouseWheel(object sender, MouseWheelEventArgs e)
+        public static readonly DependencyProperty MinimumProperty = RangeBase.MinimumProperty;
+        public double SmallChange
         {
-            var textbox = (TextBox)sender;
-            if (e.Delta > 0)
-            {
-                Value += SmallChange;
-                SavePositionCursor(textbox);
-            }
-            else
-            {
-                Value -= SmallChange;
-                SavePositionCursor(textbox);
-            }
+            get { return (double)GetValue(SmallChangeProperty); }
+            set { SetValue(SmallChangeProperty, value); }
         }
-        /// <summary>
-        /// Отлов нажатий клавиш Up и Down
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TextBox_PreviewKeyUpEvent(object sender, KeyEventArgs e)
+        public static readonly DependencyProperty SmallChangeProperty = RangeBase.SmallChangeProperty;
+
+
+        private static readonly Binding MaximumBinding = new Binding()
         {
-            var textbox = (TextBox)sender;
-            if (e.Key == Key.Up)
-            {
-                Value += SmallChange;
-                SavePositionCursor(textbox);
-            }
-            if (e.Key == Key.Down)
-            {
-                Value -= SmallChange;
-                SavePositionCursor(textbox);
-            }
-        }
-        /// <summary>
-        /// Проверка изменения текста, если текст не подходит под тип double, то сбрасываем значение в 0
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+            Path = new PropertyPath(MaximumProperty),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1)
+        };
+        private static readonly Binding MinimumBinding = new Binding()
         {
-            var textbox = (TextBox)sender;
-            if (textbox == null)
-                return;
+            Path = new PropertyPath(MinimumProperty),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1)
+        };
+        private static readonly Binding ValueBinding = new Binding()
+        {
+            Path = new PropertyPath(ValueProperty),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1),
+            Mode = BindingMode.TwoWay
+        };
+        private static readonly Binding SmallChangeBinding = new Binding()
+        {
+            Path = new PropertyPath(SmallChangeProperty),
+            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1)
+        };
+        private static readonly Binding TextBinding = new Binding()
+        {
+            Path = new PropertyPath(ValueProperty),
+            RelativeSource = RelativeSource.Self,
+            Mode = BindingMode.TwoWay
+        };
+
+
+        protected override void OnTextChanged(TextChangedEventArgs e)
+        {
+            base.OnTextChanged(e);
+
             long temp = 0;
-            if (!string.IsNullOrWhiteSpace(textbox.Text))
+            string text = Text;
+            if (!string.IsNullOrWhiteSpace(text))
             {
-                if (Minimum < 0 && textbox.Text == "-") // Если минимум отрицательное число, тогда позволяем пользователю ввести знак минус.
+                if (Minimum < 0 && Text == "-") // Если минимум отрицательное число, тогда позволяем пользователю ввести знак минус.
                     return;
-                if (long.TryParse(textbox.Text, out temp))
+                if (long.TryParse(text, out temp))
                 {
-                    if (textbox.Text.Length > 1 && textbox.Text[0] == '0') //Если пользователь ввёл значение по типу: 01, тогда удаляем 0 в самом начале
+                    if (text.Length > 1 && text[0] == '0') //Если пользователь ввёл значение по типу: 01, тогда удаляем 0 в самом начале
                     {
                         Value = temp;
-                        textbox.Text = Value.ToString();
-                        SavePositionCursor(textbox);
+                        text = Value.ToString();
+                        SavePositionCursor(this);
                     }
                     if (temp < Minimum) // Если значение превышает минимум сбрасываем Value до минимального значения
                     {
                         Value = Minimum;
-                        textbox.Text = Value.ToString();
-                        SavePositionCursor(textbox);
+                        text = Value.ToString();
+                        SavePositionCursor(this);
                     }
                     if (temp > Maximum) // Если значение превышает максим сбрасываем Value до максимального значения
                     {
                         Value = Maximum;
-                        textbox.Text = Value.ToString();
-                        SavePositionCursor(textbox);
+                        text = Value.ToString();
+                        SavePositionCursor(this);
                     }
                 }
                 else
                 {
-                    if (Minimum < 0 && textbox.Text == "-") // Если минимум отрицательное число, тогда позволяем пользователю ввести знак минус.
+                    if (Minimum < 0 && text == "-") // Если минимум отрицательное число, тогда позволяем пользователю ввести знак минус.
                         return;
                     else
                     {
-                        textbox.Text = textbox.Text.Remove(textbox.Text.Length - 1); //Если пользователь пишет любой символ кроме цифры, то удаляем этот символ
-                        SavePositionCursor(textbox);
+                        Text = text.Remove(text.Length - 1); //Если пользователь пишет любой символ кроме цифры, то удаляем этот символ
+                        SavePositionCursor(this);
                     }
                 }
             }
         }
-        // сохраняем текущую позицию курсора  устанавливаем курсор в конец строки
-        private void SavePositionCursor(TextBox textbox) => textbox.Select(textbox.Text.Length, 0);
-        #endregion
-    }
 
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            base.OnMouseWheel(e);
+
+            if (e.Delta > 0)
+            {
+                Value += SmallChange;
+                SavePositionCursor(this);
+            }
+            else
+            {
+                Value -= SmallChange;
+                SavePositionCursor(this);
+            }
+        }
+
+        protected override void OnPreviewKeyUp(KeyEventArgs e)
+        {
+            base.OnPreviewKeyUp(e);
+
+            if (e.Key == Key.Up)
+            {
+                Value += SmallChange;
+                SavePositionCursor(this);
+            }
+            if (e.Key == Key.Down)
+            {
+                Value -= SmallChange;
+                SavePositionCursor(this);
+            }
+
+        }
+
+        private static void SavePositionCursor(TextBox textbox) => textbox.Select(textbox.Text.Length, 0);
+
+    }
     public static class UpDownButton
     {
         public static RoutedCommand UpCommand { get; } = new("Up", typeof(UpDownButton));
