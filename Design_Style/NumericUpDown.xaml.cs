@@ -22,11 +22,11 @@ namespace Design_Style
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(typeof(NumericUpDown)));
             SmallChangeProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(1.0));
-            CommandManager.RegisterClassCommandBinding(typeof(NumericUpDown), new(UpValueCommand, OnUpValueExecute, OnUpDownValueCanExecute));
-            CommandManager.RegisterClassCommandBinding(typeof(NumericUpDown), new(DownValueCommand, OnDownValueExecute, OnUpDownValueCanExecute));
+            //CommandManager.RegisterClassCommandBinding(typeof(NumericUpDown), new(UpValueCommand, OnUpValueExecute, OnUpDownValueCanExecute));
+            //CommandManager.RegisterClassCommandBinding(typeof(NumericUpDown), new(DownValueCommand, OnDownValueExecute, OnUpDownValueCanExecute));
         }
-        public static readonly RoutedCommand UpValueCommand = new("UpValue", typeof(NumericUpDown));
-        public static readonly RoutedCommand DownValueCommand = new("DownValue", typeof(NumericUpDown));
+        //public static readonly RoutedCommand UpValueCommand = new("UpValue", typeof(NumericUpDown));
+        //public static readonly RoutedCommand DownValueCommand = new("DownValue", typeof(NumericUpDown));
 
         #region Dp свойства для персонализации
 
@@ -230,4 +230,74 @@ namespace Design_Style
         private void SavePositionCursor(TextBox textbox) => textbox.Select(textbox.Text.Length, 0);
         #endregion
     }
+
+    public static class UpDownButton
+    {
+        public static RoutedCommand UpCommand { get; } = new("Up", typeof(UpDownButton));
+        public static RoutedCommand DownCommand { get; } = new("Down", typeof(UpDownButton));
+
+        static UpDownButton()
+        {
+            CommandManager.RegisterClassCommandBinding(typeof(RangeBase), new(UpCommand, OnUpValueExecute, OnUpDownValueCanExecute));
+            CommandManager.RegisterClassCommandBinding(typeof(RangeBase), new(DownCommand, OnDownValueExecute, OnUpDownValueCanExecute));
+
+            CommandManager.RegisterClassCommandBinding(typeof(Selector), new(UpCommand, OnUpIndexExecute, OnUpDownIndexCanExecute));
+            CommandManager.RegisterClassCommandBinding(typeof(Selector), new(DownCommand, OnDownIndexExecute, OnUpDownIndexCanExecute));
+        }
+
+        #region Логика Up-Down RangeBase
+        private static void OnUpValueExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            RangeBase numericUpDown = (RangeBase)sender;
+            numericUpDown.Value += numericUpDown.SmallChange;
+        }
+
+        private static void OnUpDownValueCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            RangeBase numericUpDown = (RangeBase)sender;
+            e.CanExecute = numericUpDown.SmallChange > 0.0;
+        }
+
+        private static void OnDownValueExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            RangeBase numericUpDown = (RangeBase)sender;
+            numericUpDown.Value -= numericUpDown.SmallChange;
+        }
+        #endregion
+
+        #region Логика Up-Down Selector
+        private static void OnUpIndexExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Selector selector = (Selector)sender;
+            if (selector.SelectedIndex >= selector.Items.Count - 1)
+            {
+                selector.SelectedIndex = -1;
+            }
+            else
+            {
+                selector.SelectedIndex++;
+            }
+        }
+
+        private static void OnUpDownIndexCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            Selector selector = (Selector)sender;
+            e.CanExecute = selector.Items.Count > 0;
+        }
+
+        private static void OnDownIndexExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            Selector selector = (Selector)sender;
+            if (selector.SelectedIndex < 0)
+            {
+                selector.SelectedIndex = selector.Items.Count - 1;
+            }
+            else
+            {
+                selector.SelectedIndex--;
+            }
+        }
+        #endregion
+    }
+
 }

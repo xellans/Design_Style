@@ -7,6 +7,7 @@
     <Style x:Key="StyleDownValueButton" TargetType="Button">
         <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>
         <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Command" Value="{x:Static local:UpDownButton.DownCommand}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -61,6 +62,7 @@
         <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>
         <Setter Property="HorizontalAlignment" Value="Right"></Setter>
         <Setter Property="Background" Value="Transparent"></Setter>
+        <Setter Property="Command" Value="{x:Static local:UpDownButton.UpCommand}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -122,8 +124,8 @@
                             <TextBox x:Name="NumericTextBox" Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}}"
                               FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Margin="{TemplateBinding Padding}"
                               VerticalAlignment="Center" Grid.Column="0" Background="Transparent" BorderThickness="0"></TextBox>
-                            <Button x:Name="DownValueButton"  Style="{StaticResource StyleDownValueButton}" Grid.Column="1" Command="{x:Static local:NumericUpDown.DownValueCommand}"></Button>
-                            <Button x:Name="UpValueButton"  Style="{StaticResource StyleUpValueButton}" Grid.Column="2" Command="{x:Static local:NumericUpDown.UpValueCommand}"></Button>
+                            <Button x:Name="DownValueButton"  Style="{StaticResource StyleDownValueButton}" Grid.Column="1"></Button>
+                            <Button x:Name="UpValueButton"  Style="{StaticResource StyleUpValueButton}" Grid.Column="2"></Button>
                         </Grid>
                     </Border>
                 </ControlTemplate>
