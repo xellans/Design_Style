@@ -241,9 +241,36 @@ namespace Design_Style
             CommandManager.RegisterClassCommandBinding(typeof(RangeBase), new(UpCommand, OnUpValueExecute, OnUpDownValueCanExecute));
             CommandManager.RegisterClassCommandBinding(typeof(RangeBase), new(DownCommand, OnDownValueExecute, OnUpDownValueCanExecute));
 
-            CommandManager.RegisterClassCommandBinding(typeof(Selector), new(UpCommand, OnUpIndexExecute, OnUpDownIndexCanExecute));
-            CommandManager.RegisterClassCommandBinding(typeof(Selector), new(DownCommand, OnDownIndexExecute, OnUpDownIndexCanExecute));
+            CommandManager.RegisterClassCommandBinding(typeof(Selector), new(UpCommand, OnUpIndexExecute));
+            CommandManager.RegisterClassCommandBinding(typeof(Selector), new(DownCommand, OnDownIndexExecute));
+
+            CommandManager.RegisterClassCommandBinding(typeof(ToggleButton), new(UpCommand, OnUpToggleExecute));
+            CommandManager.RegisterClassCommandBinding(typeof(ToggleButton), new(DownCommand, OnDownToogleExecute));
         }
+
+        #region Логика Up-Down ToggleButton
+        private static void OnDownToogleExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            ToggleButton toggle = (ToggleButton)sender;
+            toggle.IsChecked = toggle.IsChecked switch
+            {
+                false => true,
+                null => false,
+                true => null
+            };
+        }
+
+        private static void OnUpToggleExecute(object sender, ExecutedRoutedEventArgs e)
+        {
+            ToggleButton toggle = (ToggleButton)sender;
+            toggle.IsChecked = toggle.IsChecked switch
+            {
+                false => null,
+                null => true,
+                true => false
+            };
+        }
+        #endregion
 
         #region Логика Up-Down RangeBase
         private static void OnUpValueExecute(object sender, ExecutedRoutedEventArgs e)

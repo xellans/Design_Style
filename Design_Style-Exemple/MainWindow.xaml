@@ -9,7 +9,7 @@
     xmlns:helper="clr-namespace:Design_Style.Hellper;assembly=Design_Style"
     xmlns:system="clr-namespace:System;assembly=mscorlib">
     <Window.Resources>
-       
+
     </Window.Resources>
 
     <Grid>
@@ -84,6 +84,13 @@
             <StackPanel Grid.Row="12" Grid.Column="1" Orientation="Horizontal" Background="Transparent">
                 <Button Content="Вниз" Command="{x:Static local:UpDownButton.UpCommand}" CommandTarget="{Binding ElementName=comboBox, Mode=OneWay}"/>
                 <Button Content="Вверх" Command="{x:Static local:UpDownButton.DownCommand}" CommandTarget="{Binding ElementName=comboBox, Mode=OneWay}"/>
+            </StackPanel>
+            <Viewbox Grid.Row="13">
+                <CheckBox x:Name="checkBox" Content="{Binding IsChecked, RelativeSource={RelativeSource Self}, TargetNullValue=null}" IsEnabled="False"/>
+            </Viewbox>
+            <StackPanel Grid.Row="13" Grid.Column="1" Orientation="Horizontal" Background="Transparent">
+                <Button Content="Вниз" Command="{x:Static local:UpDownButton.UpCommand}" CommandTarget="{Binding ElementName=checkBox, Mode=OneWay}"/>
+                <Button Content="Вверх" Command="{x:Static local:UpDownButton.DownCommand}" CommandTarget="{Binding ElementName=checkBox, Mode=OneWay}"/>
             </StackPanel>
         </Grid>
     </Grid>
