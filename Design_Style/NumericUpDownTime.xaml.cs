@@ -155,4 +155,7 @@ namespace Design_Style
         };
 
     }
+
+    public class TimeIntervalsDictionary : Dictionary<TimeIntervals, string>
+    { }
 }
