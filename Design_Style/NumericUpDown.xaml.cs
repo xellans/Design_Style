@@ -15,85 +15,125 @@ namespace Design_Style
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(typeof(NumericUpDown)));
             SmallChangeProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(1.0));
+
+            CornerRadiusProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(CornerRadiusProperty.GetMetadata(typeof(FrameworkElement)).DefaultValue));
+            BackgroundButtonProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(BackgroundButtonProperty.GetMetadata(typeof(FrameworkElement)).DefaultValue));
+            BackgroundButtonMouseOverProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(BackgroundButtonMouseOverProperty.GetMetadata(typeof(FrameworkElement)).DefaultValue));
+            BackgroundArrowProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(BackgroundButtonProperty.GetMetadata(typeof(FrameworkElement)).DefaultValue));
+            BackgroundArrowMouseOverProperty.OverrideMetadata(typeof(NumericUpDown), new FrameworkPropertyMetadata(BackgroundArrowMouseOverProperty.GetMetadata(typeof(FrameworkElement)).DefaultValue));
         }
 
         #region Dp свойства для персонализации
 
         #region CornerRadius радиус закругления
-        public static readonly DependencyProperty CornerRadiusProperty = DependencyProperty.Register(
-        nameof(CornerRadius),
-        typeof(CornerRadius),
-        typeof(NumericUpDown), new PropertyMetadata(new CornerRadius(6.0)));
+        public static readonly DependencyProperty CornerRadiusProperty = StyleDataHelper.CornerRadiusProperty;
 
         public CornerRadius CornerRadius
         {
             get { return (CornerRadius)GetValue(CornerRadiusProperty); }
             set { SetValue(CornerRadiusProperty, value); }
         }
-        public static void SetCornerRadius(UIElement element, CornerRadius value) => element.SetValue(CornerRadiusProperty, value);
-
-        public static CornerRadius GetCornerRadius(UIElement element) => (CornerRadius)element.GetValue(CornerRadiusProperty);
         #endregion
 
         #region BackgroundButton цвет кнопки
-        public static readonly DependencyProperty BackgroundButtonProperty = DependencyProperty.Register(
-        nameof(BackgroundButton),
-        typeof(SolidColorBrush),
-        typeof(NumericUpDown), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F1F1F1"))));
+        public static readonly DependencyProperty BackgroundButtonProperty = StyleDataHelper.BackgroundButtonProperty;
 
         public SolidColorBrush BackgroundButton
         {
             get { return (SolidColorBrush)GetValue(BackgroundButtonProperty); }
             set { SetValue(BackgroundButtonProperty, value); }
         }
-        public static void SetBackgroundButton(UIElement element, SolidColorBrush value) => element.SetValue(BackgroundButtonProperty, value);
-
-        public static SolidColorBrush GetBackgroundButton(UIElement element) => (SolidColorBrush)element.GetValue(BackgroundButtonProperty);
         #endregion
 
         #region BackgroundButtonMouseOver цвет кнопки при наведение мыши
-        public static readonly DependencyProperty BackgroundButtonMouseOverProperty = DependencyProperty.Register(
-        nameof(BackgroundButtonMouseOver),
-        typeof(SolidColorBrush),
-        typeof(NumericUpDown), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#46BCFF"))));
+        public static readonly DependencyProperty BackgroundButtonMouseOverProperty = StyleDataHelper.BackgroundButtonMouseOverProperty;
 
         public SolidColorBrush BackgroundButtonMouseOver
         {
             get { return (SolidColorBrush)GetValue(BackgroundButtonMouseOverProperty); }
             set { SetValue(BackgroundButtonMouseOverProperty, value); }
         }
-        public static void SetBackgroundButtonMouseOver(UIElement element, SolidColorBrush value) => element.SetValue(BackgroundButtonMouseOverProperty, value);
-
-        public static SolidColorBrush GetBackgroundButtonMouseOver(UIElement element) => (SolidColorBrush)element.GetValue(BackgroundButtonMouseOverProperty);
         #endregion
 
         #region BackgroundArrow цвет стрелочки
-        public static readonly DependencyProperty BackgroundArrowProperty = DependencyProperty.Register(
-        nameof(BackgroundArrow),
-        typeof(SolidColorBrush),
-        typeof(NumericUpDown), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#BBBBBB"))));
+        public static readonly DependencyProperty BackgroundArrowProperty = StyleDataHelper.BackgroundArrowProperty;
 
         public SolidColorBrush BackgroundArrow
         {
             get { return (SolidColorBrush)GetValue(BackgroundArrowProperty); }
             set { SetValue(BackgroundArrowProperty, value); }
         }
-        public static void SetBackgroundArrow(UIElement element, SolidColorBrush value) => element.SetValue(BackgroundArrowProperty, value);
-
-        public static SolidColorBrush GetBackgroundArrow(UIElement element) => (SolidColorBrush)element.GetValue(BackgroundArrowProperty);
         #endregion
 
         #region BackgroundArrowMouseOver цвет стрелочки при наведение мыши
-        public static readonly DependencyProperty BackgroundArrowMouseOverProperty = DependencyProperty.Register(
-        nameof(BackgroundArrowMouseOver),
-        typeof(SolidColorBrush),
-        typeof(NumericUpDown), new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"))));
+        public static readonly DependencyProperty BackgroundArrowMouseOverProperty = StyleDataHelper.BackgroundArrowMouseOverProperty;
 
         public SolidColorBrush BackgroundArrowMouseOver
         {
             get { return (SolidColorBrush)GetValue(BackgroundArrowMouseOverProperty); }
             set { SetValue(BackgroundArrowMouseOverProperty, value); }
         }
+        #endregion
+        #endregion
+    }
+    public static class StyleDataHelper
+    {
+
+        #region Dp свойства для персонализации
+
+        #region CornerRadius радиус закругления
+        public static readonly DependencyProperty CornerRadiusProperty
+            = DependencyProperty.RegisterAttached(nameof(SetCornerRadius)[3..],
+                                          typeof(CornerRadius),
+                                          typeof(FrameworkElement),
+                                          new PropertyMetadata(new CornerRadius(6.0)));
+
+        public static void SetCornerRadius(UIElement element, CornerRadius value) => element.SetValue(CornerRadiusProperty, value);
+
+        public static CornerRadius GetCornerRadius(UIElement element) => (CornerRadius)element.GetValue(CornerRadiusProperty);
+        #endregion
+
+        #region BackgroundButton цвет кнопки
+        public static readonly DependencyProperty BackgroundButtonProperty
+            = DependencyProperty.RegisterAttached(nameof(SetBackgroundButton)[3..],
+                                                  typeof(SolidColorBrush),
+                                                  typeof(FrameworkElement),
+                                                  new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F1F1F1"))));
+
+        public static void SetBackgroundButton(UIElement element, SolidColorBrush value) => element.SetValue(BackgroundButtonProperty, value);
+
+        public static SolidColorBrush GetBackgroundButton(UIElement element) => (SolidColorBrush)element.GetValue(BackgroundButtonProperty);
+        #endregion
+
+        #region BackgroundButtonMouseOver цвет кнопки при наведение мыши
+        public static readonly DependencyProperty BackgroundButtonMouseOverProperty
+            = DependencyProperty.RegisterAttached(nameof(SetBackgroundButtonMouseOver)[3..],
+                                          typeof(SolidColorBrush),
+                                          typeof(FrameworkElement),
+                                          new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#46BCFF"))));
+        public static void SetBackgroundButtonMouseOver(UIElement element, SolidColorBrush value) => element.SetValue(BackgroundButtonMouseOverProperty, value);
+
+        public static SolidColorBrush GetBackgroundButtonMouseOver(UIElement element) => (SolidColorBrush)element.GetValue(BackgroundButtonMouseOverProperty);
+        #endregion
+
+        #region BackgroundArrow цвет стрелочки
+        public static readonly DependencyProperty BackgroundArrowProperty
+            = DependencyProperty.RegisterAttached(nameof(SetBackgroundArrow)[3..],
+                                                  typeof(SolidColorBrush),
+                                                  typeof(FrameworkElement),
+                                                  new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#BBBBBB"))));
+
+        public static void SetBackgroundArrow(UIElement element, SolidColorBrush value) => element.SetValue(BackgroundArrowProperty, value);
+
+        public static SolidColorBrush GetBackgroundArrow(UIElement element) => (SolidColorBrush)element.GetValue(BackgroundArrowProperty);
+        #endregion
+
+        #region BackgroundArrowMouseOver цвет стрелочки при наведение мыши
+        public static readonly DependencyProperty BackgroundArrowMouseOverProperty
+            = DependencyProperty.RegisterAttached(nameof(SetBackgroundArrowMouseOver)[3..],
+                                                  typeof(SolidColorBrush),
+                                                  typeof(FrameworkElement),
+                                                  new PropertyMetadata(new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFFF"))));
         public static void SetBackgroundArrowMouseOver(UIElement element, SolidColorBrush value) => element.SetValue(BackgroundArrowMouseOverProperty, value);
 
         public static SolidColorBrush GetBackgroundArrowMouseOver(UIElement element) => (SolidColorBrush)element.GetValue(BackgroundArrowMouseOverProperty);

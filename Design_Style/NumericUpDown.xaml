@@ -100,11 +100,11 @@
     </Style>
 
     <Style TargetType="{x:Type local:NumericUpDown}">
-        <Setter Property="local:NumericUpDown.CornerRadius" Value="6"></Setter>
+        <!--<Setter Property="local:NumericUpDown.CornerRadius" Value="6"></Setter>
         <Setter Property="local:NumericUpDown.BackgroundButton" Value="#F1F1F1"></Setter>
         <Setter Property="local:NumericUpDown.BackgroundButtonMouseOver" Value="#46BCFF"></Setter>
         <Setter Property="local:NumericUpDown.BackgroundArrow" Value="#BBBBBB"></Setter>
-        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#FFFFFF"></Setter>
+        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#FFFFFF"></Setter>-->
         <Setter Property="Background" Value="White"></Setter>
         <Setter Property="BorderBrush" Value="#E5E5E5"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
@@ -116,11 +116,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:NumericUpDown}">
+                    <!--<Border CornerRadius="{TemplateBinding local:NumericUpDown.CornerRadius}"--> 
                     <Border 
-                      CornerRadius="{TemplateBinding local:NumericUpDown.CornerRadius}" 
-                      Background="{TemplateBinding Background}"
-                      BorderBrush="{TemplateBinding BorderBrush}"
-                      BorderThickness="{TemplateBinding BorderThickness}">
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"></ColumnDefinition>

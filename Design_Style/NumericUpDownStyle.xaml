@@ -5,7 +5,7 @@
 
     <!--Кнопка уменьшить значение-->
     <Style x:Key="StyleDownValueButton" TargetType="Button">
-        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>
+        <!--<Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>-->
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Command" Value="{x:Static local:UpDownButton.DownCommand}"/>
         <Setter Property="Template">
@@ -36,7 +36,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Stroke" Value="{Binding (local:NumericUpDown.BackgroundArrowMouseOver), RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="Arrow"></Setter>
+                            <!--<Setter Property="Stroke" Value="{Binding (local:NumericUpDown.BackgroundArrowMouseOver), RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="Arrow"></Setter>-->
                         </Trigger>
                         <DataTrigger Binding="{Binding ElementName=DownValueButton, Path=IsPressed}" Value="true">
                             <DataTrigger.EnterActions>
@@ -55,11 +55,11 @@
 
     <!--Кнопка увеличить значение-->
     <Style x:Key="StyleUpValueButton" TargetType="Button">
-        <Setter Property="local:NumericUpDown.CornerRadius" Value="6"></Setter>
+        <!--<Setter Property="local:NumericUpDown.CornerRadius" Value="6"></Setter>
         <Setter Property="local:NumericUpDown.BackgroundButton" Value="#F1F1F1"></Setter>
         <Setter Property="local:NumericUpDown.BackgroundButtonMouseOver" Value="#46BCFF"></Setter>
         <Setter Property="local:NumericUpDown.BackgroundArrow" Value="#BBBBBB"></Setter>
-        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>
+        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>-->
         <Setter Property="HorizontalAlignment" Value="Right"></Setter>
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Command" Value="{x:Static local:UpDownButton.UpCommand}"/>
@@ -81,7 +81,7 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Stroke" Value="{Binding (local:NumericUpDown.BackgroundArrowMouseOver), RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="Arrow"></Setter>
+                            <!--<Setter Property="Stroke" Value="{Binding (local:NumericUpDown.BackgroundArrowMouseOver), RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="Arrow"></Setter>-->
                         </Trigger>
                         <DataTrigger Binding="{Binding ElementName=UpValueButton, Path=IsPressed}" Value="true">
                             <DataTrigger.EnterActions>
