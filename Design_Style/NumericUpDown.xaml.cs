@@ -103,70 +103,49 @@ namespace Design_Style
 
     public class DoubleTextBox : TextBox
     {
-        public DoubleTextBox()
+        private RangeBase? templatedParent;
+        protected override void OnVisualParentChanged(DependencyObject oldParent)
         {
-            //SetBinding(MaximumProperty, MaximumBinding);
-            //SetBinding(MinimumProperty, MinimumBinding);
-            //SetBinding(ValueProperty, ValueBinding);
-            //SetBinding(SmallChangeProperty, SmallChangeBinding);
-            SetBinding(TextProperty, TextBinding);
-            SetBinding(IsNegativeProperty, IsNegativeBinding);
+            base.OnVisualParentChanged(oldParent);
+
+            var _parent = TemplatedParent as RangeBase;
+            if (templatedParent != _parent)
+            {
+                if (templatedParent != null)
+                {
+                    if (BindingOperations.GetBinding(this, TextProperty) == TextTemplateBinding)
+                    {
+                        BindingOperations.ClearBinding(this, TextProperty);
+                    }
+                    if (BindingOperations.GetBinding(this, IsNegativeProperty) == IsNegativeTemplateBinding)
+                    {
+                        BindingOperations.ClearBinding(this, IsNegativeProperty);
+                    }
+                }
+                templatedParent = _parent;
+                if (templatedParent != null)
+                {
+                    if (DependencyPropertyHelper.GetValueSource(this, TextProperty).BaseValueSource == BaseValueSource.Default)
+                        SetBinding(TextProperty, TextTemplateBinding);
+
+                    if (DependencyPropertyHelper.GetValueSource(this, IsNegativeProperty).BaseValueSource == BaseValueSource.Default)
+                        SetBinding(IsNegativeProperty, IsNegativeTemplateBinding);
+                }
+            }
         }
 
-        //public double Value
-        //{
-        //    get { return (double)GetValue(ValueProperty); }
-        //    set { SetValue(ValueProperty, value); }
-        //}
-        //public static readonly DependencyProperty ValueProperty = RangeBase.ValueProperty;
-
-        //public double Maximum
-        //{
-        //    get { return (double)GetValue(MaximumProperty); }
-        //    set { SetValue(MaximumProperty, value); }
-        //}
-        //public static readonly DependencyProperty MaximumProperty = RangeBase.MaximumProperty;
-
-        //public double Minimum
-        //{
-        //    get { return (double)GetValue(MinimumProperty); }
-        //    set { SetValue(MinimumProperty, value); }
-        //}
-        //public static readonly DependencyProperty MinimumProperty = RangeBase.MinimumProperty;
-        //public double SmallChange
-        //{
-        //    get { return (double)GetValue(SmallChangeProperty); }
-        //    set { SetValue(SmallChangeProperty, value); }
-        //}
-        //public static readonly DependencyProperty SmallChangeProperty = RangeBase.SmallChangeProperty;
-
-
-        //private static readonly Binding MaximumBinding = new Binding()
-        //{
-        //    Path = new PropertyPath(MaximumProperty),
-        //    RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1)
-        //};
-        //private static readonly Binding MinimumBinding = new Binding()
-        //{
-        //    Path = new PropertyPath(MinimumProperty),
-        //    RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1)
-        //};
-        //private static readonly Binding ValueBinding = new Binding()
-        //{
-        //    Path = new PropertyPath(ValueProperty),
-        //    RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1),
-        //    Mode = BindingMode.TwoWay
-        //};
-        //private static readonly Binding SmallChangeBinding = new Binding()
-        //{
-        //    Path = new PropertyPath(SmallChangeProperty),
-        //    RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1)
-        //};
-        private static readonly Binding TextBinding = new Binding()
+        private static readonly Binding TextTemplateBinding = new Binding()
         {
             Path = new PropertyPath(RangeBase.ValueProperty),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1),
+            RelativeSource = RelativeSource.TemplatedParent,
             Mode = BindingMode.TwoWay
+        };
+
+        private static readonly Binding IsNegativeTemplateBinding = new Binding()
+        {
+            Path = new PropertyPath(RangeBase.MinimumProperty),
+            RelativeSource = RelativeSource.TemplatedParent,
+            Mode = BindingMode.OneWay
         };
 
         public IInputElement CommandTarget
@@ -192,46 +171,17 @@ namespace Design_Style
         public static readonly DependencyProperty IsNegativeProperty =
             DependencyProperty.Register(nameof(IsNegative), typeof(bool), typeof(DoubleTextBox), new PropertyMetadata(false));
 
-        private static readonly Binding IsNegativeBinding = new Binding()
-        {
-            Path = new PropertyPath(RangeBase.MinimumProperty),
-            RelativeSource = new RelativeSource(RelativeSourceMode.FindAncestor, typeof(RangeBase), 1),
-            Mode = BindingMode.OneWay
-        };
-
         protected override void OnTextChanged(TextChangedEventArgs e)
         {
             base.OnTextChanged(e);
 
-            long temp = 0;
             string text = Text;
             if (!string.IsNullOrWhiteSpace(text))
             {
                 bool isNegative = IsNegative;
                 if (isNegative && Text == "-") // Если минимум отрицательное число, тогда позволяем пользователю ввести знак минус.
                     return;
-                if (long.TryParse(text, out temp))
-                {
-                    //if (text.Length > 1 && text[0] == '0') //Если пользователь ввёл значение по типу: 01, тогда удаляем 0 в самом начале
-                    //{
-                    //    Value = temp;
-                    //    text = Value.ToString();
-                    //    SavePositionCursor(this);
-                    //}
-                    //if (temp < Minimum) // Если значение превышает минимум сбрасываем Value до минимального значения
-                    //{
-                    //    Value = Minimum;
-                    //    text = Value.ToString();
-                    //    SavePositionCursor(this);
-                    //}
-                    //if (temp > Maximum) // Если значение превышает максим сбрасываем Value до максимального значения
-                    //{
-                    //    Value = Maximum;
-                    //    text = Value.ToString();
-                    //    SavePositionCursor(this);
-                    //}
-                }
-                else
+                if (!long.TryParse(text, out _))
                 {
                     if (isNegative && text == "-") // Если минимум отрицательное число, тогда позволяем пользователю ввести знак минус.
                         return;
@@ -250,16 +200,6 @@ namespace Design_Style
 
             RaiseCommand(this, e.Delta > 0);
             SavePositionCursor(this);
-            //if (e.Delta > 0)
-            //{
-            //    Value += SmallChange;
-            //    SavePositionCursor(this);
-            //}
-            //else
-            //{
-            //    Value -= SmallChange;
-            //    SavePositionCursor(this);
-            //}
         }
 
         private static void RaiseCommand(DoubleTextBox tbox, bool? isUp)
@@ -280,18 +220,6 @@ namespace Design_Style
             base.OnPreviewKeyUp(e);
             RaiseCommand(this, e.Key == Key.Up ? true : e.Key == Key.Down ? false : null);
             SavePositionCursor(this);
-
-            //if (e.Key == Key.Up)
-            //{
-            //    Value += SmallChange;
-            //    SavePositionCursor(this);
-            //}
-            //if (e.Key == Key.Down)
-            //{
-            //    Value -= SmallChange;
-            //    SavePositionCursor(this);
-            //}
-
         }
 
         private static void SavePositionCursor(TextBox textbox) => textbox.Select(textbox.Text.Length, 0);
