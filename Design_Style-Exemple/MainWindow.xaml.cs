@@ -36,23 +36,24 @@ namespace Design_Style_Exemple
         string language = "Dictionary1.xaml";
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-          //  NumericTime.TimeType = TimeIntervals.Hour;
-           MessageBox.Show(NumericTime.TimeType.ToString());
+            //  NumericTime.TimeType = TimeIntervals.Hour;
+            MessageBox.Show(NumericTime.TimeType.ToString());
         }
 
         private void Button_Click_3(object sender, RoutedEventArgs e)
         {
-             //NumericTime.TimeType = TimeIntervals.Hour;
+            //NumericTime.TimeType = TimeIntervals.Hour;
             //ChangeLanguage();
             var oldTimeType = NumericTime.TimeType;
-            var updatedDictionary = new Dictionary<TimeIntervals, string>();
-            updatedDictionary[TimeIntervals.Hour] = "ч";
-            updatedDictionary[TimeIntervals.Minute] = "м";
-            updatedDictionary[TimeIntervals.Second] = "с";
-            updatedDictionary[TimeIntervals.Millisecond] = "мс";
-            NumericTime.TimeIntervalsDisplay = updatedDictionary;
-          //  NumericTime.TimeType = updatedDictionary.Keys.FirstOrDefault(x => x != oldTimeType);
-           // NumericTime.TimeType = updatedDictionary.Keys.FirstOrDefault(x => x == oldTimeType);
+            NumericTime.TimeIntervalsDisplay = new Dictionary<TimeIntervals, string>()
+            {
+                { TimeIntervals.Hour, "ч"},
+                { TimeIntervals.Minute, "м"},
+                { TimeIntervals.Second, "с"},
+                { TimeIntervals.Millisecond, "мс"},
+            };
+            //  NumericTime.TimeType = updatedDictionary.Keys.FirstOrDefault(x => x != oldTimeType);
+            // NumericTime.TimeType = updatedDictionary.Keys.FirstOrDefault(x => x == oldTimeType);
         }
         private void SetLanguePack(string path)
         {
@@ -69,7 +70,7 @@ namespace Design_Style_Exemple
                 language = "Dictionary2.xaml";
                 return;
             }
-             if (language == "Dictionary2.xaml")
+            if (language == "Dictionary2.xaml")
             {
                 SetLanguePack("Dictionary1.xaml");
                 language = "Dictionary1.xaml";

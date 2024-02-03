@@ -28,14 +28,14 @@
                             Grid.Column="0" 
                             Height="{TemplateBinding Height}"
                             Width="{TemplateBinding Width}"></local:NumericUpDown>
-                        <ComboBox Name="PART_NumericComboBox" Grid.Column="1"
-                           Height="{TemplateBinding Height}"
-                           Margin="14,0,0,0"
-                           Width="66"
-                           ItemsSource="{Binding TimeIntervalsDisplay, RelativeSource={RelativeSource AncestorType=local:NumericUpDownTime}}"
-                           SelectedValue="{Binding TimeType, RelativeSource={RelativeSource AncestorType=local:NumericUpDownTime}}"
-                           SelectedValuePath="Key"
-                           DisplayMemberPath="Value">
+                        <ComboBox Grid.Column="1"
+                                  Height="{TemplateBinding Height}"
+                                  Margin="14,0,0,0"
+                                  Width="66"
+                                  local:SelectorHelper.ItemsSource="{TemplateBinding TimeIntervalsDisplay}"
+                                  SelectedValue="{Binding TimeType, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                  SelectedValuePath="Key"
+                                  DisplayMemberPath="Value">
                         </ComboBox>
                     </Grid>
                 </ControlTemplate>

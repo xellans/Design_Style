@@ -28,7 +28,7 @@
                             Grid.Column="0" 
                             Height="{TemplateBinding Height}"
                             Width="{TemplateBinding Width}"></local:NumericUpDown>
-                         <ComboBox Name="PART_NumericComboBox" Grid.Column="1"    
+                         <ComboBox Grid.Column="1"    
                            Height="{TemplateBinding Height}"
                            Margin="14,0,0,0"
                            Width="66"
