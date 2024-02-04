@@ -144,7 +144,7 @@ namespace Design_Style
     public class DoubleTextBox : TextBox
     {
         private RangeBase? templatedParent;
-        protected override void OnVisualParentChanged(DependencyObject oldParent)
+        protected override async void OnVisualParentChanged(DependencyObject oldParent)
         {
             base.OnVisualParentChanged(oldParent);
 
@@ -165,8 +165,14 @@ namespace Design_Style
                 templatedParent = _parent;
                 if (templatedParent != null)
                 {
-                    //if (DependencyPropertyHelper.GetValueSource(this, TextProperty).BaseValueSource == BaseValueSource.Default)
-                    //    SetBinding(TextProperty, TextTemplateBinding);
+                    if(!IsLoaded)
+                    {
+                        TaskCompletionSource taskSource = new ();
+                        Loaded += delegate { taskSource.SetResult(); };
+                        await taskSource.Task;
+                    }
+                    if (DependencyPropertyHelper.GetValueSource(this, TextProperty).BaseValueSource == BaseValueSource.Default)
+                        SetBinding(TextProperty, TextTemplateBinding);
 
                     if (DependencyPropertyHelper.GetValueSource(this, IsNegativeProperty).BaseValueSource == BaseValueSource.Default)
                         SetBinding(IsNegativeProperty, IsNegativeTemplateBinding);

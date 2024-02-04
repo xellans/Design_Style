@@ -9,26 +9,22 @@
         <ResourceDictionary Source="pack://application:,,,/Design_Style;component/NumericUpDown.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style TargetType="{x:Type local:NumericUpDownTime}"
+    <Style TargetType="{x:Type local:NumericUpDownUnits}"
            BasedOn="{StaticResource {x:Type local:NumericUpDown}}">
-        <!--<Setter Property="Value" Value="0"></Setter>
-        <Setter Property="Minimum" Value="0"></Setter>
-        <Setter Property="Maximum" Value="1000"></Setter>-->
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type local:NumericUpDownTime}">
+                <ControlTemplate TargetType="{x:Type local:NumericUpDownUnits}">
                     <Grid>
+                        <Grid.Resources>
+                            <local:NumericUpDownUnitsProxy
+                                x:Key="proxy"
+                                OriginalValue="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                SelectedUnit="{Binding SelectedUnit, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"/>
+                        </Grid.Resources>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"></ColumnDefinition>
                             <ColumnDefinition Width="auto"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
-                        <!--<local:NumericUpDown 
-                            Value="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                            Minimum="{Binding Minimum, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                            Maximum="{Binding Maximum, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                            Grid.Column="0" 
-                            Height="{TemplateBinding Height}"
-                            Width="{TemplateBinding Width}"></local:NumericUpDown>-->
                         <Border CornerRadius="{TemplateBinding CornerRadius}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
@@ -39,8 +35,10 @@
                                     <ColumnDefinition Width="auto"></ColumnDefinition>
                                 </Grid.ColumnDefinitions>
 
+                                 <!--<TextBox FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Margin="{TemplateBinding Padding}"-->
                                 <local:DoubleTextBox FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Margin="{TemplateBinding Padding}"
-                                                 VerticalAlignment="Center" Grid.Column="0" Background="Transparent" BorderThickness="0"/>
+                                                     VerticalAlignment="Center" Grid.Column="0" Background="Transparent" BorderThickness="0"
+                                                     Text="{Binding DisplayValue, Source={StaticResource proxy}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                 <Button x:Name="DownValueButton"  Style="{StaticResource StyleDownValueButton}" Grid.Column="1"/>
                                 <Button x:Name="UpValueButton"  Style="{StaticResource StyleUpValueButton}" Grid.Column="2"/>
@@ -50,11 +48,20 @@
                                   Height="{TemplateBinding Height}"
                                   Margin="14,0,0,0"
                                   Width="66"
-                                  local:SelectorHelper.ItemsSource="{TemplateBinding TimeIntervalsDisplay}"
-                                  SelectedValue="{Binding TimeType, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                                  SelectedValuePath="Key"
-                                  DisplayMemberPath="Value">
-                        </ComboBox>
+                                  ItemsSource="{TemplateBinding Units}"
+                                  SelectedItem="{Binding SelectedUnit, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                  DisplayMemberPath="Display">
+                        <!--<ComboBox Grid.Column="1"
+                                  Height="{TemplateBinding Height}"
+                                  Margin="14,0,0,0"
+                                  Width="66"
+                                  local:SelectorHelper.ItemsSource="{TemplateBinding Units}"
+                                  SelectedValuePath="Value"
+                                  SelectedValue="{Binding SelectedUnit, Source={StaticResource proxy}, Mode=TwoWay}"
+                                  DisplayMemberPath="Value.Display"
+                                  SelectedIndex="0">-->
+                                  <!--SelectedItem="{Binding SelectedUnit, Source={StaticResource proxy}}"-->
+                      </ComboBox>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

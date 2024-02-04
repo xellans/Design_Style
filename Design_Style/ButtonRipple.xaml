@@ -56,8 +56,8 @@
                         </Border.Triggers>
                         <Border.Clip>
                             <RectangleGeometry 
-                              RadiusX="{TemplateBinding local:ButtonRipple.CornerRadius}" 
-                              RadiusY="{Binding RadiusX, RelativeSource={RelativeSource Mode=Self}}">
+                                RadiusX="{TemplateBinding local:ButtonRipple.CornerRadius}" 
+                                RadiusY="{Binding RadiusX, RelativeSource={RelativeSource Mode=Self}}">
                                 <RectangleGeometry.Rect>
                                     <MultiBinding Converter="{StaticResource RectConverter}">
                                         <Binding ElementName="templateRoot" Path="ActualWidth"/>

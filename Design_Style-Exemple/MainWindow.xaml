@@ -63,7 +63,7 @@
             <TextBlock Grid.Row="6" Margin="10 10 0 0" FontSize="18">NumericUpDownTime</TextBlock>
             <local:NumericUpDownTime   Grid.Row="7" x:Name="NumericTime" Value="1" Height="32"  Margin="10 5 10 0"
                                        BackgroundArrow="{Binding Source=Red}"/>
-            <local:NumericUpDownTime Grid.Row="7"  Value="1" Style="{StaticResource Style_NumericUpDownTime}" Height="32" Grid.Column="1" Margin="10 5 10 0"/>
+            <!--<local:NumericUpDownTime Grid.Row="7"  Value="1" Style="{StaticResource Style_NumericUpDownTime}" Height="32" Grid.Column="1" Margin="10 5 10 0"/>-->
             <TextBlock Grid.Row="8" Margin="10 10 0 0" FontSize="18">ComboBox</TextBlock>
             <ComboBox Style="{StaticResource Style_ComboBox}" Grid.Row="9" Margin="10 5 10 0" SelectedIndex="0">
                 <ComboBoxItem Margin="0 7 0 0">Data</ComboBoxItem>
@@ -96,6 +96,13 @@
                 <Button Content="Вниз" Command="{x:Static local:UpDownButton.UpCommand}" CommandTarget="{Binding ElementName=checkBox, Mode=OneWay}"/>
                 <Button Content="Вверх" Command="{x:Static local:UpDownButton.DownCommand}" CommandTarget="{Binding ElementName=checkBox, Mode=OneWay}"/>
             </StackPanel>
+            <local:NumericUpDownUnits x:Name="numericUpDownUnits" Grid.Row="14"
+                                      Units="{Binding Source={x:Static local:NumericUpDownUnitsProxy.Units}}"
+                                      SelectedUnit="{Binding [2], Source={x:Static local:NumericUpDownUnitsProxy.Units}}"
+                                      Value="45"
+                                      Maximum="100000"/>
+            <TextBlock Grid.Row="14" Grid.Column="1" Text="{Binding Value, ElementName=numericUpDownUnits}"
+                       HorizontalAlignment="Center" FontSize="20"/>
         </Grid>
     </Grid>
 </Window>
