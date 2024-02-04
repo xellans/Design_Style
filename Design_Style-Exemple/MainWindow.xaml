@@ -98,7 +98,7 @@
             </StackPanel>
             <local:NumericUpDownUnits x:Name="numericUpDownUnits" Grid.Row="14"
                                       Units="{Binding Source={x:Static local:NumericUpDownUnitsProxy.Units}}"
-                                      SelectedUnit="{Binding [2], Source={x:Static local:NumericUpDownUnitsProxy.Units}}"
+                                      SelectedUnit="{Binding [1], Source={x:Static local:NumericUpDownUnitsProxy.Units}}"
                                       Value="45"
                                       Maximum="100000"/>
             <TextBlock Grid.Row="14" Grid.Column="1" Text="{Binding Value, ElementName=numericUpDownUnits}"

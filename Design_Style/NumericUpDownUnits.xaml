@@ -14,7 +14,11 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:NumericUpDownUnits}">
-                    <Grid>
+                    <Grid x:Name="root">
+                        <FrameworkElement.CommandBindings>
+                            <local:UpDownCommandBinding Command="{x:Static local:UpDownButton.DownCommand}"/>
+                            <local:UpDownCommandBinding Command="{x:Static local:UpDownButton.UpCommand}"/>
+                        </FrameworkElement.CommandBindings>
                         <Grid.Resources>
                             <local:NumericUpDownUnitsProxy
                                 x:Key="proxy"
@@ -40,8 +44,12 @@
                                                      VerticalAlignment="Center" Grid.Column="0" Background="Transparent" BorderThickness="0"
                                                      Text="{Binding DisplayValue, Source={StaticResource proxy}, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                                <Button x:Name="DownValueButton"  Style="{StaticResource StyleDownValueButton}" Grid.Column="1"/>
-                                <Button x:Name="UpValueButton"  Style="{StaticResource StyleUpValueButton}" Grid.Column="2"/>
+                                <Button x:Name="DownValueButton"  Style="{StaticResource StyleDownValueButton}" Grid.Column="1"
+                                        CommandTarget="{Binding ElementName=root}"
+                                        CommandParameter="{TemplateBinding SmallChange}"/>
+                                <Button x:Name="UpValueButton"  Style="{StaticResource StyleUpValueButton}" Grid.Column="2"
+                                        CommandTarget="{Binding ElementName=root}"
+                                        CommandParameter="{TemplateBinding SmallChange}"/>
                             </Grid>
                         </Border>
                         <ComboBox Grid.Column="1"

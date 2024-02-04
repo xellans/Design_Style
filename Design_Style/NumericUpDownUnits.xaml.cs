@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 
 namespace Design_Style
 {
@@ -104,10 +105,10 @@ namespace Design_Style
         public static readonly UnitData[] Units
             =
             {
-                new ("in", "дюйм", (v, c, t) => t? v / 0.0254   : v * 0.0254 ),
-                new ("mi", "миля", (v, c, t) => t? v / 1609.344 : v * 1609.344),
-                new ("m", "метр",  (v, c, t) => v),
-                new ("ft", "фут",  (v, c, t) => t? v / 0.3048   : v * 0.3048),
+                new ("in", "дюйм", (v, c, t) => t? Convert.ToInt32(v / 0.0254)   : v * 0.0254 ),
+                new ("mi", "миля", (v, c, t) => t? Convert.ToInt32(v / 1609.344) : v * 1609.344),
+                new ("m", "метр",  (v, c, t) => Convert.ToInt32(v)),
+                new ("ft", "фут",  (v, c, t) => t? Convert.ToInt32(v / 0.3048)   : v * 0.3048),
             };
 
         protected override Freezable CreateInstanceCore() => new NumericUpDownUnitsProxy();
@@ -218,4 +219,27 @@ namespace Design_Style
 
     }
 
+
+    public class UpDownCommandBinding : CommandBinding
+    {
+        public UpDownCommandBinding()
+        {
+            Executed += OnUpDown;
+            CanExecute += (s, e) => e.CanExecute = true;
+        }
+
+        private void OnUpDown(object sender, ExecutedRoutedEventArgs e)
+        {
+            if ((e.Command == UpDownButton.UpCommand || e.Command == UpDownButton.DownCommand) && e.Parameter is double step)
+            {
+                NumericUpDownUnitsProxy proxy = (NumericUpDownUnitsProxy)((FrameworkElement)sender).Resources[nameof(proxy)];
+                if (e.Command == UpDownButton.DownCommand)
+                {
+                    step = -step;
+                }
+                proxy.DisplayValue += step;
+            }
+            e.Handled = true;
+        }
+    }
 }

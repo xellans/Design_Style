@@ -21,7 +21,8 @@ namespace Design_Style_Exemple
         public MainWindow()
         {
             InitializeComponent();
-            DataContext = this;
+            //DataContext = this;
+            numericUpDownUnits.Value = 62;
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
