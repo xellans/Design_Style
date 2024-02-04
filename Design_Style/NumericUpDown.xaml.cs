@@ -165,8 +165,8 @@ namespace Design_Style
                 templatedParent = _parent;
                 if (templatedParent != null)
                 {
-                    if (DependencyPropertyHelper.GetValueSource(this, TextProperty).BaseValueSource == BaseValueSource.Default)
-                        SetBinding(TextProperty, TextTemplateBinding);
+                    //if (DependencyPropertyHelper.GetValueSource(this, TextProperty).BaseValueSource == BaseValueSource.Default)
+                    //    SetBinding(TextProperty, TextTemplateBinding);
 
                     if (DependencyPropertyHelper.GetValueSource(this, IsNegativeProperty).BaseValueSource == BaseValueSource.Default)
                         SetBinding(IsNegativeProperty, IsNegativeTemplateBinding);
