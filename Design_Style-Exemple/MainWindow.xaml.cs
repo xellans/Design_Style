@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections;
+using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -79,4 +80,42 @@ namespace Design_Style_Exemple
             }
         }
     }
+
+    public class SomeViewModel
+    {
+        public double SomeNumber { get; set; }    
+    }
+
+    #region Это часть реализуется в View
+    public class LengthUnitConverter : DoubleUnitConverter
+    {
+        protected override double GetDirectConversionFactor(object? unitTarget)
+        {
+            if (unitTarget is not string target)
+            {
+                target = string.Empty;
+            }
+            return target switch
+            {
+                "in" => 0.0254,
+                "mi" => 1609.344,
+                "m" => 1,
+                "ft" => 0.3048,
+                _ => 1
+            };
+        }
+    }
+
+    // Какой-то источник единиц измерения.
+    // Они могут быть в любом типе: перечисление, строка, картинки.
+    // Как конкретно их выводить будет решаться на уровне View.
+    public static class SomeSource
+    {
+        public static readonly IDictionary Units = "in,дюйм mi,миля m,метр ft,фут"
+            .Split()
+            .Select(pair => pair.Split(','))
+            .ToDictionary(pair => pair[0], pair => pair[1]);
+    }
+    #endregion
+
 }

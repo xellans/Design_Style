@@ -7,7 +7,7 @@
         Title="MainWindow" Height="822" Width="1200"
     xmlns:local="clr-namespace:Design_Style;assembly=Design_Style"
     xmlns:helper="clr-namespace:Design_Style.Hellper;assembly=Design_Style"
-    xmlns:system="clr-namespace:System;assembly=mscorlib">
+    xmlns:system="clr-namespace:System;assembly=mscorlib" xmlns:sys="clr-namespace:System;assembly=netstandard" xmlns:design_style_exemple="clr-namespace:Design_Style_Exemple">
     <Window.Resources>
 
     </Window.Resources>
@@ -103,6 +103,42 @@
                                       Maximum="100000"/>
             <TextBlock Grid.Row="14" Grid.Column="1" Text="{Binding Value, ElementName=numericUpDownUnits}"
                        HorizontalAlignment="Center" FontSize="20"/>
+            <UserControl Grid.Row="15" Grid.Column="0" Grid.ColumnSpan="3">
+                <UserControl.DataContext>
+                    <!--Якобы какая-то ViewMOdel-->
+                    <design_style_exemple:SomeViewModel
+                        SomeNumber="123"/>
+                </UserControl.DataContext>
+                <!--<UserControl.Resources>
+                    <local:NumericUpDownUnitsProxy
+                        x:Key="proxy"
+                        OriginalValue="{Binding SomeNumber}"
+                        SelectedUnit="{Binding [2], Source={x:Static local:NumericUpDownUnitsProxy1.Units}}"/>
+                </UserControl.Resources>-->
+                <UniformGrid Rows="1">
+                    <local:NumericUpDownUnits1 x:Name="numericUpDownUnits1"
+                        OriginalValue="{Binding SomeNumber}"
+                        Units="{x:Static design_style_exemple:SomeSource.Units}">
+                        <local:NumericUpDownUnits1.Converter>
+                            <design_style_exemple:LengthUnitConverter/>
+                        </local:NumericUpDownUnits1.Converter>
+                    </local:NumericUpDownUnits1>
+
+                    <ComboBox Margin="14,0,0,0"
+                              Width="66"
+                              ItemsSource="{x:Static design_style_exemple:SomeSource.Units}"
+                              SelectedItem="{Binding SelectedUnit}"
+                              DisplayMemberPath="Display"/>
+
+                    <TextBlock>
+                        <Run Text="Истинное значение (в метрах):"/>
+                        <Run Text="{Binding SomeNumber}"/>
+                        <LineBreak/>
+                        <Run Text="{Binding SelectedUnit.Key, ElementName=numericUpDownUnits1, StringFormat='Отображаемое значение (в {0}):', Mode=OneWay}"/>
+                        <Run Text="{Binding Value, ElementName=numericUpDownUnits1}"/>
+                    </TextBlock>
+                </UniformGrid>
+            </UserControl>
         </Grid>
     </Grid>
 </Window>

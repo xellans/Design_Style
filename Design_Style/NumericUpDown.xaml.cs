@@ -165,11 +165,13 @@ namespace Design_Style
                 templatedParent = _parent;
                 if (templatedParent != null)
                 {
-                    if(!IsLoaded)
+                    if (!IsLoaded)
                     {
-                        TaskCompletionSource taskSource = new ();
-                        Loaded += delegate { taskSource.SetResult(); };
+                        TaskCompletionSource taskSource = new();
+                        RoutedEventHandler onLoaded = delegate { taskSource.SetResult(); };
+                        Loaded += onLoaded;
                         await taskSource.Task;
+                        Loaded -= onLoaded;
                     }
                     if (DependencyPropertyHelper.GetValueSource(this, TextProperty).BaseValueSource == BaseValueSource.Default)
                         SetBinding(TextProperty, TextTemplateBinding);

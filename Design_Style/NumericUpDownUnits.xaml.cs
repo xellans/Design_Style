@@ -97,7 +97,6 @@ namespace Design_Style
             return base.ConvertFrom(context, culture, value);
         }
     }
-
     public class NumericUpDownUnitsProxy : Freezable
     {
         /// <summary>Для упрощения тестирования. Потом нужно удалить.<br/>

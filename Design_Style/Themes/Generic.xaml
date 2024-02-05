@@ -7,5 +7,6 @@
         <ResourceDictionary Source="pack://application:,,,/Design_Style;component/NumericUpDown.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Design_Style;component/NumericUpDownTime.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Design_Style;component/NumericUpDownUnits.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Design_Style;component/NumericUpDownUnits1.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>
