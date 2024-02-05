@@ -6,5 +6,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Design_Style;component/NumericUpDown.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Design_Style;component/NumericUpDownTime.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/Design_Style;component/Custom_TextBox.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

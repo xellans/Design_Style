@@ -2,7 +2,7 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:Design_Style="clr-namespace:Design_Style;assembly=Design_Style"
-             xmlns:local="clr-namespace:Design_Style_Exemple"
+             xmlns:local="clr-namespace:Design_Style_Exemple" xmlns:sys="clr-namespace:System;assembly=netstandard"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
@@ -12,8 +12,6 @@
                 <ResourceDictionary Source="/Design_Style;component/ButtonRipple.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/Design_Style;component/RadioButtonRipple.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/Design_Style;component/RadioButtonRipple2.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="/Design_Style;component/NumericUpDownStyle.xaml"></ResourceDictionary>
-                <ResourceDictionary Source="/Design_Style;component/NumericUpDownTimeStyle.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="/Design_Style;component/ComboBoxStyle.xaml"></ResourceDictionary>
 
                 <ResourceDictionary Source="/Dictionary2.xaml"></ResourceDictionary>
@@ -29,6 +27,16 @@
             <Style x:Key="ComboBoxStyle" BasedOn="{StaticResource Style_ComboBox}" TargetType="ComboBox">
                 <Setter Property="Design_Style:ComboBoxStyle.MarginArrow" Value="0,12,11,10"></Setter>
             </Style>
+
+            <!--<Style TargetType="{x:Type Design_Style:NumericUpDownTime}">
+                <Setter Property="TimeIntervalsDisplay" Value="{DynamicResource timeIntervals}"/>
+            </Style>
+            <Design_Style:TimeIntervalsDictionary x:Key="timeIntervals">
+                <sys:String x:Key="{x:Static Design_Style:TimeIntervals.Second}">ccc</sys:String>
+                <sys:String x:Key="{x:Static Design_Style:TimeIntervals.Minute}">mnmnmnnmn</sys:String>
+                <sys:String x:Key="{x:Static Design_Style:TimeIntervals.Hour}">чччччч</sys:String>
+                <sys:String x:Key="{x:Static Design_Style:TimeIntervals.Millisecond}">mlcmlcmlc</sys:String>
+            </Design_Style:TimeIntervalsDictionary>-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>

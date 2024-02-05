@@ -5,25 +5,25 @@
 
     <!--Кнопка уменьшить значение-->
     <Style x:Key="StyleDownValueButton" TargetType="Button">
+        <Setter Property="Command" Value="{x:Static local:UpDownButton.DownCommand}"/>
+        <Setter Property="local:NumericUpDown.BackgroundArrow" Value="#BBBBBB"></Setter>
+        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid x:Name="root" Background="Transparent" Width="{Binding ActualHeight, ElementName=DownValueButton}">
-                        <Ellipse x:Name="el"
-                          Stretch="Fill"
-                          Margin="0 4 0 4"
-                          Width="{Binding ActualHeight, ElementName=el}"
-                          Fill="{Binding BackgroundButton, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}">
-                        </Ellipse>
-                        <Viewbox x:Name="vbArrow"
-                                 Margin="2">
-                            <Path  Name="Arrow" 
-                                   Fill="{Binding BackgroundArrow, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}" 
+                    <Border x:Name="root" Background="Transparent" MinWidth="{Binding ActualWidth, ElementName=root}" Padding="10,0,10,0">
+                        <Viewbox Name="VbArrow" 
+                                 Margin="0 9 0 9">
+                            <Path  Name="Arrow"
+                                   RenderTransformOrigin="0.5,0.5"
                                    Stretch="Fill" 
-                                   Margin="0 7 1 7"
-                                   Data="M10.2857 15.4214C10.087 15.6372 9.76477 15.6372 9.56604 15.4214C9.36731 15.2055 9.36731 14.8556 9.56604 14.6398L12.9174 10.9999L9.56604 7.36007C9.36731 7.14424 9.36731 6.7943 9.56604 6.57846C9.76477 6.36263 10.087 6.36263 10.2857 6.57846L13.7483 10.3392C14.0843 10.7041 14.0843 11.2957 13.7483 11.6607L10.2857 15.4214Z" 
-                                   RenderTransformOrigin="0.5,0.5">
+                                   Stroke="{Binding BackgroundArrow, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}"
+                                   StrokeThickness="1.5"
+                                   StrokeStartLineCap="Round"
+                                   StrokeEndLineCap="Round"
+                                   StrokeLineJoin="Round"
+                                   Data="M1 13L7 7L1 1">
                                 <Path.RenderTransform>
                                     <TransformGroup>
                                         <ScaleTransform/>
@@ -34,17 +34,16 @@
                                 </Path.RenderTransform>
                             </Path>
                         </Viewbox>
-                    </Grid>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Fill" Value="{Binding BackgroundButtonMouseOver, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}" TargetName="el"></Setter>
-                            <Setter Property="Fill" Value="{Binding BackgroundArrowMouseOver, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}" TargetName="Arrow"></Setter>
+                            <Setter Property="Stroke" Value="{Binding (local:NumericUpDown.BackgroundArrowMouseOver), RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="Arrow"></Setter>
                         </Trigger>
                         <DataTrigger Binding="{Binding ElementName=DownValueButton, Path=IsPressed}" Value="true">
                             <DataTrigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard AutoReverse="True">
-                                        <ThicknessAnimation Storyboard.TargetName="el" Storyboard.TargetProperty="Margin" From="0 4 0 4" To="0 9 0 9" Duration="0:0:0:0.1000"/>
+                                        <ThicknessAnimation Storyboard.TargetName="VbArrow" Storyboard.TargetProperty="Margin" From="0 9 0 9" To="0 12 0 12" Duration="0:0:0:0.1000"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>
@@ -57,36 +56,36 @@
 
     <!--Кнопка увеличить значение-->
     <Style x:Key="StyleUpValueButton" TargetType="Button">
-        <Setter Property="Margin" Value="0 0 5 0"></Setter>
+        <Setter Property="Command" Value="{x:Static local:UpDownButton.UpCommand}"/>
+        <Setter Property="local:NumericUpDown.BackgroundArrow" Value="#BBBBBB"></Setter>
+        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#46BCFF"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Right"></Setter>
         <Setter Property="Background" Value="Transparent"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
-                    <Grid x:Name="root" Background="Transparent" Width="{Binding ActualHeight, ElementName=UpValueButton}">
-                        <Ellipse x:Name="el" 
-                                 Margin="0 4 0 4"
-                                 Width="{Binding ActualHeight, ElementName=el}"  
-                                 Stretch="Fill"
-                                 Fill="{Binding BackgroundButton, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}">
-                            </Ellipse>
-                        <Viewbox Margin="2">
-                            <Path Name="Arrow" 
+                    <Border x:Name="root" Background="Transparent" MinWidth="{Binding ActualWidth, ElementName=root}" Padding="10,0,10,0">
+                        <Viewbox Name="VbArrow"
+                                 Margin="0 9 0 9">
+                            <Path Name="Arrow"
                                   Stretch="Fill" 
-                                  Margin="1 7 0 7" 
-                                  Fill="{Binding BackgroundArrow, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}"
-                              Data="M10.2857 15.4214C10.087 15.6372 9.76477 15.6372 9.56604 15.4214C9.36731 15.2055 9.36731 14.8556 9.56604 14.6398L12.9174 10.9999L9.56604 7.36007C9.36731 7.14424 9.36731 6.7943 9.56604 6.57846C9.76477 6.36263 10.087 6.36263 10.2857 6.57846L13.7483 10.3392C14.0843 10.7041 14.0843 11.2957 13.7483 11.6607L10.2857 15.4214Z"/>
+                                  Stroke="{Binding BackgroundArrow, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}"
+                                  StrokeThickness="1.5"
+                                  StrokeStartLineCap="Round"
+                                  StrokeEndLineCap="Round"
+                                  StrokeLineJoin="Round"
+                                  Data="M1 13L7 7L1 1"/>
                         </Viewbox>
-                    </Grid>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Fill" Value="{Binding BackgroundButtonMouseOver, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}" TargetName="el"></Setter>
-                            <Setter Property="Fill" Value="{Binding BackgroundArrowMouseOver, RelativeSource={RelativeSource AncestorType=local:NumericUpDown}}" TargetName="Arrow"></Setter>
+                            <Setter Property="Stroke" Value="{Binding (local:NumericUpDown.BackgroundArrowMouseOver), RelativeSource={RelativeSource Mode=TemplatedParent}}" TargetName="Arrow"></Setter>
                         </Trigger>
                         <DataTrigger Binding="{Binding ElementName=UpValueButton, Path=IsPressed}" Value="true">
                             <DataTrigger.EnterActions>
-                                <BeginStoryboard Name="ss">
+                                <BeginStoryboard>
                                     <Storyboard AutoReverse="True">
-                                        <ThicknessAnimation Storyboard.TargetName="el" Storyboard.TargetProperty="Margin" From="0 4 0 4" To="0 9 0 9" Duration="0:0:0:0.100"/>
+                                        <ThicknessAnimation Storyboard.TargetName="VbArrow" Storyboard.TargetProperty="Margin" From="0 9 0 9" To="0 12 0 12" Duration="0:0:0:0.100"/>
                                     </Storyboard>
                                 </BeginStoryboard>
                             </DataTrigger.EnterActions>
@@ -98,24 +97,20 @@
     </Style>
 
     <Style TargetType="{x:Type local:NumericUpDown}">
-        <Setter Property="local:NumericUpDown.CornerRadius" Value="6"></Setter>
-        <Setter Property="local:NumericUpDown.BackgroundButton" Value="#F1F1F1"></Setter>
-        <Setter Property="local:NumericUpDown.BackgroundButtonMouseOver" Value="#46BCFF"></Setter>
-        <Setter Property="local:NumericUpDown.BackgroundArrow" Value="#BBBBBB"></Setter>
-        <Setter Property="local:NumericUpDown.BackgroundArrowMouseOver" Value="#FFFFFF"></Setter>
         <Setter Property="Background" Value="White"></Setter>
         <Setter Property="BorderBrush" Value="#E5E5E5"></Setter>
         <Setter Property="BorderThickness" Value="1"></Setter>
         <Setter Property="Padding" Value="10 0 0 0"></Setter>
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="Value" Value="0"></Setter>
-        <Setter Property="Minimum" Value="0"></Setter>
+        <Setter Property="Minimum" Value="1000"></Setter>
         <Setter Property="Maximum" Value="1000"></Setter>
+        <Setter Property="Height" Value="40"></Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:NumericUpDown}">
                     <Border 
-                      CornerRadius="{TemplateBinding local:NumericUpDown.CornerRadius}" 
+                      CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType={x:Type local:NumericUpDown}}}" 
                       Background="{TemplateBinding Background}"
                       BorderBrush="{TemplateBinding BorderBrush}"
                       BorderThickness="{TemplateBinding BorderThickness}">
@@ -125,11 +120,16 @@
                                 <ColumnDefinition Width="auto"></ColumnDefinition>
                                 <ColumnDefinition Width="auto"></ColumnDefinition>
                             </Grid.ColumnDefinitions>
-                            <TextBox x:Name="NumericTextBox" Text="{Binding Value, RelativeSource={RelativeSource Mode=TemplatedParent}}"
-                              FontSize="{TemplateBinding FontSize}" FontFamily="{TemplateBinding FontFamily}" Margin="{TemplateBinding Padding}"
-                              VerticalAlignment="Center" Grid.Column="0" Background="Transparent" BorderThickness="0"></TextBox>
-                            <Button x:Name="DownValueButton"  Style="{StaticResource StyleDownValueButton}" Grid.Column="1" Command="{x:Static local:NumericUpDown.DownValueCommand}"></Button>
-                            <Button x:Name="UpValueButton"  Style="{StaticResource StyleUpValueButton}" Grid.Column="2" Command="{x:Static local:NumericUpDown.UpValueCommand}"></Button>
+                            <local:DoubleTextBox x:Name="NumericTextBox" 
+                                                 FontSize="{TemplateBinding FontSize}"
+                                                 FontFamily="{TemplateBinding FontFamily}"
+                                                 Margin="{TemplateBinding Padding}"
+                                                 VerticalAlignment="Center"
+                                                 Grid.Column="0"
+                                                 Background="Transparent"
+                                                 BorderThickness="0"></local:DoubleTextBox>
+                            <Button x:Name="DownValueButton"  Style="{StaticResource StyleDownValueButton}" Grid.Column="1"></Button>
+                            <Button x:Name="UpValueButton"  Style="{StaticResource StyleUpValueButton}" Grid.Column="2"></Button>
                         </Grid>
                     </Border>
                 </ControlTemplate>
