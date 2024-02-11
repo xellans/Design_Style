@@ -182,19 +182,10 @@ namespace Design_Style
         private object? privateSelectedUnit;
         private static void SelectedUnitChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            // Получение конвертера выбранной единицы измерения и его запись в конвертер привязки.
+            // Сохранение выбранной единицы измеренеие и вызов пересчёта единиц.
             NumericUpDownUnits1 nudu = (NumericUpDownUnits1)d;
-            if (e.NewValue is null)
-            {
-                nudu.privateSelectedUnit = null;
-            }
-            else
-            {
+            nudu.privateSelectedUnit = e.NewValue;
 
-                nudu.privateSelectedUnit = ((dynamic)e.NewValue).Key;
-            }
-
-            // Обновление источники привязки (истинного значения) для новой единицы измерения.
             nudu.OnValueOrUnitOrConverterChanged();
         }
         static NumericUpDownUnits1() => DefaultStyleKeyProperty.OverrideMetadata(typeof(NumericUpDownUnits1), new FrameworkPropertyMetadata(typeof(NumericUpDownUnits1)));

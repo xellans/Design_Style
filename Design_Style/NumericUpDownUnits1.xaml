@@ -41,9 +41,12 @@
                                   Height="{TemplateBinding Height}"
                                   Margin="14,0,0,0"
                                   Width="66"
-                                  ItemsSource="{TemplateBinding Units}"
-                                  SelectedItem="{Binding SelectedUnit, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                  local:SelectorHelper.ItemsSource="{TemplateBinding Units}"
+                                  SelectedValuePath="Key"
+                                  SelectedValue="{Binding SelectedUnit, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                                   DisplayMemberPath="Value">
+                                  <!--SelectedItem="{Binding SelectedUnit, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"-->
+                                  <!--ItemsSource="{TemplateBinding Units}"-->
                         <!--<ComboBox Grid.Column="1"
                                   Height="{TemplateBinding Height}"
                                   Margin="14,0,0,0"
